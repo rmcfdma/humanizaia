@@ -16,6 +16,7 @@ background:#020617;
 border-radius:20px;
 padding:30px;
 box-shadow:0 0 40px rgba(0,0,0,.5);
+border:1px solid #334155;
 }
 
 h1 {
@@ -27,35 +28,42 @@ input,button {
 width:100%;
 padding:14px;
 border-radius:10px;
-border:none;
-margin-top:10px;
+margin-top:12px;
 font-size:16px;
 }
 
 input {
 background:#020617;
 color:white;
-border:1px solid #1e293b;
+border:1px solid #475569;
 }
 
 button {
 background:#2563eb;
 color:white;
 cursor:pointer;
-}
-
-button:hover {
-opacity:.9;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
 }
 
 .preview {
-margin-top:20px;
+margin-bottom:15px;
 text-align:center;
 }
 
 .preview img {
-max-width:200px;
+max-width:220px;
 border-radius:12px;
+border:1px solid #475569;
+}
+
+#filename {
+text-align:center;
+font-size:14px;
+color:#94a3b8;
+margin-top:6px;
 }
 
 .results {
@@ -68,6 +76,7 @@ gap:20px;
 .result img {
 width:100%;
 border-radius:12px;
+border:1px solid #475569;
 }
 
 .download {
@@ -81,6 +90,50 @@ text-decoration:none;
 .loader {
 display:none;
 text-align:center;
-margin-top:20px;
+margin-top:15px;
+}
+
+/* Spinner do botão */
+
+.spinner {
+width:16px;
+height:16px;
+border:2px solid transparent;
+border-top:2px solid white;
+border-radius:50%;
+animation:spin 1s linear infinite;
+display:none;
+}
+
+@keyframes spin {
+to { transform: rotate(360deg); }
+}
+
+.upload-wrapper {
+display:flex;
+flex-direction:column;
+gap:6px;
+margin-top:10px;
+}
+
+.upload-btn {
+background:#020617;
+border:1px solid #475569;
+padding:14px;
+border-radius:10px;
+cursor:pointer;
+text-align:center;
+transition:.2s;
+}
+
+.upload-btn:hover {
+background:#020617cc;
+}
+
+#filename {
+text-align:center;
+font-size:13px;
+color:#94a3b8;
+margin-top:4px;
 }
 
