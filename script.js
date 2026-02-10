@@ -30,7 +30,7 @@ async function send() {
     loader.style.display = "block";
     results.innerHTML = "";
 
-    const res = await fetch("http://127.0.0.1:8000/humanizar", {
+    const res = await fetch("https://reflectively-uninvestigable-rocco.ngrok-free.dev/humanizar", {
         method: "POST",
         body: form
     });
