@@ -3,12 +3,23 @@ const preview = document.getElementById("preview");
 const btn = document.getElementById("btn");
 const results = document.getElementById("results");
 const loader = document.getElementById("loader");
+const spinner = document.getElementById("spinner");
+const filename = document.getElementById("filename");
 
 fileInput.onchange = () => {
+
+    const file = fileInput.files[0];
+
+    if (!file) return;
+
     const img = document.createElement("img");
-    img.src = URL.createObjectURL(fileInput.files[0]);
+    img.src = URL.createObjectURL(file);
+
     preview.innerHTML = "";
     preview.appendChild(img);
+
+    filename.textContent = file.name;
+    
 };
 
 btn.onclick = send;
@@ -27,6 +38,7 @@ async function send() {
     form.append("file", file);
     form.append("num_images", num);
 
+    spinner.style.display = "inline-block";
     loader.style.display = "block";
     results.innerHTML = "";
 
@@ -37,6 +49,7 @@ async function send() {
 
     const data = await res.json();
 
+    spinner.style.display = "none";
     loader.style.display = "none";
 
     data.images.forEach((img, i) => {
@@ -44,9 +57,9 @@ async function send() {
         div.className = "result";
 
         div.innerHTML = `
-<img src="${img}">
-<a class="download" href="${img}" download="imagem_${i}.png">Download</a>
-`;
+        <img src="${img}">
+        <a class="download" href="${img}" download="imagem_${i}.png">Download</a>
+        `;
 
         results.appendChild(div);
     });
