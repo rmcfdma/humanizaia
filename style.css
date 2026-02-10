@@ -92,7 +92,7 @@ color:#94a3b8;
 margin-top:4px;
 }
 
-#size{
+#size {
 display:block;
 width:100%;
 text-align:center;
@@ -145,6 +145,8 @@ display:none;
 @keyframes spin {
 to { transform: rotate(360deg); }
 }
+
+
 
 
 
