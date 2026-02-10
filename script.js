@@ -5,21 +5,33 @@ const results = document.getElementById("results");
 const loader = document.getElementById("loader");
 const spinner = document.getElementById("spinner");
 const filename = document.getElementById("filename");
+const size = document.getElementById("size");
 
 fileInput.onchange = () => {
 
     const file = fileInput.files[0];
-
     if (!file) return;
 
-    const img = document.createElement("img");
-    img.src = URL.createObjectURL(file);
+    const imgPreview = document.createElement("img");
+    imgPreview.src = URL.createObjectURL(file);
 
     preview.innerHTML = "";
-    preview.appendChild(img);
+    preview.appendChild(imgPreview);
 
-    filename.textContent = file.name;
-    
+    const img = new Image();
+
+    img.onload = () => {
+
+        const width = img.width;
+        const height = img.height;
+
+        const sizeKB = (file.size / 1024).toFixed(1);
+
+        filename.textContent = `${file.name} — ${width}x${height}px`;
+        size.textContent = `Tamanho: ${sizeKB} KB`;
+    };
+
+    img.src = URL.createObjectURL(file);
 };
 
 btn.onclick = send;
@@ -64,3 +76,4 @@ async function send() {
         results.appendChild(div);
     });
 }
+
