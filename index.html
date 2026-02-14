@@ -4,41 +4,146 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Humanizador IA</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Humanize IA</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonte Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: "Inter", system-ui, sans-serif;
+        }
+
+        /* remove focus ring */
+        *:focus,
+        *:focus-visible {
+            outline: none !important;
+            box-shadow: none !important;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="container">
-        <div class="card">
-            <h1>Humanizador de Imagens</h1>
-            <!-- Preview vem primeiro -->
-            <div class="preview" id="preview"></div>
-            <!-- <input type="file" id="file" /> -->
-            <div class="upload-wrapper">
-                <label for="file" class="upload-btn">
-                    Selecionar imagem
-                </label>
-                <input type="file" id="file" accept=".png, .jpg, .jpeg" hidden />
-                <span id="filename">Nenhum arquivo selecionado</span>
-                <span id="size"></span>
-            </div>
-            <button id="btn">
-                Humanizar
-                <span class="spinner" id="spinner"></span>
-            </button>
-            <!-- Nome do arquivo -->
-            <!-- <div id="filename"></div> -->
-            <input type="number" id="num" value="1" min="1" max="6" />
-            <div class="loader" id="loader">Gerando imagens...</div>
-            <div class="results" id="results"></div>
+<body class="bg-slate-900 text-white min-h-screen flex justify-center pt-10 px-4">
+
+    <div class="w-full max-w-sm bg-slate-950 border border-slate-700 rounded-2xl p-6 shadow-xl">
+
+        <h1 class="text-xl font-semibold text-center">Humanize IA</h1>
+        <p class="text-center text-slate-400 text-sm mb-4">Criando imagens que convertem</p>
+
+        <div id="preview" class="flex justify-center mb-1"></div>
+        <div class="mb-2 text-center leading-tight">
+            <span id="filename" class="block text-[10px] text-slate-400"></span>
+            <span id="size" class="block text-[10px] text-slate-500"></span>
         </div>
+        <textarea id="link_shopee" rows="4" placeholder="         Cole aqui o link da Shopee..."
+            class="w-full bg-slate-900 border border-slate-600 rounded-xl p-3 resize-none"></textarea>
+        <button id="btn_buscar_img_shopee"
+            class="mt-1 mb-3 w-full bg-blue-600 py-3 rounded-xl hover:bg-yellow-300 transition">
+            <span id="span_buscar_shopee">Buscar na Shopee</span>
+            <span id="spinner_download"
+                class="hidden w-4 h-4 border-2 border-blue-700 border-t-transparent rounded-full animate-spin"></span>
+        </button>
+        <span id="ou" class="block text-center text-slate-400 mb-3">ou</span>
+
+        <label class="block bg-blue-600 hover:bg-blue-500 transition text-center py-3 rounded-xl cursor-pointer mb-6">
+            Selecione uma imagem
+            <input type="file" id="file_upload" hidden>
+        </label>
+
+        <label class="text-sm text-sm block mb-2">2. Quantas variações vc quer da imagem?</label>
+        <input type="number" id="qtd_images" value="1" min="1" max="5"
+            class="w-full bg-slate-900 border border-slate-600 rounded-xl p-2 mb-4">
+
+        <span class="question_3 block text-sm opacity-70 mb-2">3. O que você deseja incluir na imagem?</span>
+
+        <div class="flex items-center gap-2 mb-2">
+            <input type="checkbox" id="ia_decide" checked>
+            <label>Prefiro que a IA decida</label>
+        </div>
+
+        <!-- Prompt Config -->
+        <div id="prompt-config" class="grid grid-cols-2 gap-4 mt-4">
+
+            <div>
+                <label for="pessoas" class="block text-xs text-slate-400 mb-1">Pessoas</label>
+                <select id="pessoas" class="w-full bg-slate-900 border border-slate-600 rounded-xl p-2 text-sm">
+                    <option value="ia decide">IA decide</option>
+                    <option value="um adulto">Adulto</option>
+                    <option value="um homem">Homem</option>
+                    <option value="uma mulher">Mulher</option>
+                    <option value="uma criança">Criança</option>
+                    <option value="algumas crianças">Crianças</option>
+                    <option value="um menino">Menino</option>
+                    <option value="uma menina">Menina</option>
+                    <option value="um casal">Casal</option>
+                    <option value="uma familia">Família</option>
+                    <option value="alguns amigos">Amigos</option>
+                    <option value="algumas amigas">Amigas</option>
+                    <option value="sem pessoas">Sem pessoas</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="objetos" class="block text-xs text-slate-400 mb-1">Objetos</label>
+                <select id="objetos" class="w-full bg-slate-900 border border-slate-600 rounded-xl p-2 text-sm">
+                    <option value="ia decide">IA decide</option>
+                    <option value="somente produto">Somente produto</option>
+                    <option value="plantas decorativas">Plantas decorativas</option>
+                    <option value="utensilios relacionados">Utensílios relacionados</option>
+                    <option value="moveis">Móveis</option>
+                    <option value="eletrodomesticos">Eletrodomésticos</option>
+                    <option value="alimentos">Alimentos</option>
+                    <option value="acessorios">Acessórios</option>
+                    <option value="sem objetos">Sem objetos</option>
+                </select>
+            </div>
+            <div>
+                <label for="ambiente" class="block text-xs text-slate-400 mb-1">Ambiente</label>
+                <select id="ambiente" class="w-full bg-slate-900 border border-slate-600 rounded-xl p-2 text-sm">
+                    <option value="ia decide">IA decide</option>
+                    <option value="estudio">Estúdio</option>
+                    <option value="cozinha">Cozinha</option>
+                    <option value="sala">Sala</option>
+                    <option value="quarto">Quarto</option>
+                    <option value="banheiro">Banheiro</option>
+                    <option value="varanda">Varanda</option>
+                    <option value="closet">Closet</option>
+                    <option value="escritorio">Escritório</option>
+                    <option value="ambiente externo">Ambiente externo</option>
+                    <option value="cenario minimalista">Cenário minimalista</option>
+                    <option value="sem ambiente">Sem ambiente</option>
+
+                </select>
+            </div>
+            <div>
+                <label for="estilo" class="block text-xs text-slate-400 mb-1">Estilo</label>
+                <select id="estilo" class="w-full bg-slate-900 border border-slate-600 rounded-xl p-2 text-sm">
+                    <option value="ia decide">IA decide</option>
+                    <option value="realista">Realista</option>
+                    <option value="cinematografico">Cinematográfico</option>
+                    <option value="minimalista">Minimalista</option>
+                    <option value="luxo">Luxo</option>
+                    <option value="lifestyle">Lifestyle</option>
+                    <option value="moderno">Moderno</option>
+                    <option value="clean">Clean</option>
+                    <option value="dramatico">Dramático</option>
+                    <option value="publicitario">Publicitário</option>
+                    <option value="sem estilo">Sem Estilo</option>
+                </select>
+            </div>
+        </div>
+
+        <button id="btn_humanizar"
+            class="mt-6 mb-6 w-full bg-yellow-400 text-blue-700 font-semibold py-3 rounded-xl hover:bg-yellow-300 transition flex items-center justify-center gap-2">
+            <span id="txt_humanizar">Humanizar</span>
+            <span id="spinner_humanizar"
+                class="hidden w-4 h-4 border-2 border-blue-700 border-t-transparent rounded-full animate-spin"></span>
+        </button>
+
+        <div class="mb-4 text-center" id="results"></div>
     </div>
-    <script src="script.js"></script>
-</body>
-
-</html>
-
-
-
-
