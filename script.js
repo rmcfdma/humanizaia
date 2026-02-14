@@ -14,7 +14,9 @@ const file_upload = document.getElementById("file_upload");
         // eventos
         btn_humanizar.onclick = send;
         btn_buscar_img_shopee.onclick = buscar_imagem_shopee;
-        checkbox.addEventListener("change", togglePrompt);
+        ["input", "click"].forEach(evt =>
+    checkbox.addEventListener(evt, togglePrompt)
+);
 
         // estado inicial
         togglePrompt();
