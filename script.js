@@ -73,7 +73,7 @@ async function buscar_imagem_shopee() {
     size.textContent = "";
 
     try {
-        const res = await fetch("https://reflectively-uninvestigable-rocco.ngrok-free.dev/extract", {
+        const res = await fetch("https://clarinetabest-humanizaia-api.hf.space/extract", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -161,7 +161,7 @@ async function send() {
     // loader.style.display = "block";
     results.innerHTML = "";
 
-    const res = await fetch("https://reflectively-uninvestigable-rocco.ngrok-free.dev/humanizar", {
+    const res = await fetch("https://clarinetabest-humanizaia-api.hf.space/humanizar", {
         method: "POST",
         body: form
     });
